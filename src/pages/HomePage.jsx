@@ -59,7 +59,7 @@ function PhotoCard() {
       }}
     >
       <img
-        src="/Rishav.png"
+        src="/rishav-main.jpeg"
         alt="Rishav Kumar Jha"
         className="w-full h-full object-cover"
         style={{ objectPosition: "center 15%" }}
@@ -380,7 +380,7 @@ function AboutMini() {
         <div className="rounded-2xl overflow-hidden mb-5"
              style={{ background:'var(--bg-card)', border:'1px solid var(--border)' }}>
           <div className="h-52 overflow-hidden">
-            <img src="/Rishav1.png" alt="Rishav Kumar Jha"
+            <img src="/rishav-jha-about.jpeg" alt="Rishav Kumar Jha"
                  className="w-full h-full object-cover" style={{ objectPosition:'center 12%' }} />
           </div>
           <div className="p-4">

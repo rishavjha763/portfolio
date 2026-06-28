@@ -60,7 +60,7 @@ export default function AboutPage() {
             >
               <div className="relative h-64 overflow-hidden">
                 <img
-                  src="/Rishav1.png"
+                  src="/rishav-jha-about.jpeg"
                   alt="Rishav Kumar Jha"
                   className="w-full h-full object-cover"
                   style={{ objectPosition: "center 12%" }}
