@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── DARK THEME ─── */
+:root,
+[data-theme="dark"] {
+  --bg-primary:    #06060c;
+  --bg-secondary:  #0e0e18;
+  --bg-card:       #13131f;
+  --bg-card-hover: #18182a;
+  --border:        rgba(255,255,255,0.07);
+  --border-accent: rgba(99,102,241,0.4);
+  --text-primary:  #f0f0fa;
+  --text-secondary:#9293a8;
+  --text-muted:    #55566a;
+  --accent:        #6366f1;
+  --accent-2:      #a855f7;
+  --accent-rgb:    99,102,241;
+  --accent-glow:   rgba(99,102,241,0.18);
+  --green:         #22d3a0;
+  --nav-bg:        rgba(6,6,12,0.88);
+}
+
+/* ─── LIGHT THEME ─── */
+[data-theme="light"] {
+  --bg-primary:    #f5f5ff;
+  --bg-secondary:  #eeeef8;
+  --bg-card:       #ffffff;
+  --bg-card-hover: #f0f0fd;
+  --border:        rgba(0,0,0,0.08);
+  --border-accent: rgba(99,102,241,0.35);
+  --text-primary:  #0d0d1a;
+  --text-secondary:#4b4b6a;
+  --text-muted:    #9090b0;
+  --accent:        #6366f1;
+  --accent-2:      #a855f7;
+  --accent-rgb:    99,102,241;
+  --accent-glow:   rgba(99,102,241,0.12);
+  --green:         #16a87e;
+  --nav-bg:        rgba(245,245,255,0.9);
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  /* ✅ UPDATED: Inter as body font */
+  font-family: 'Inter', sans-serif;
+
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+/* ─── SELECTION ─── */
+::selection { background: var(--accent); color: #fff; }
+
+/* ─── NOISE ─── */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0; opacity:0.5;
+}
+
+/* ─── CUSTOM CURSOR (desktop only) ─── */
+@media (pointer: fine) { body { cursor: none; } }
+.c-dot {
+  width:7px; height:7px; background:var(--accent); border-radius:50%;
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+}
+.c-ring {
+  width:32px; height:32px; border:1.5px solid rgba(var(--accent-rgb),0.5);
+  border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998;
+  transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
+}
+.c-ring.hov { width:52px; height:52px; border-color:var(--accent); background:rgba(var(--accent-rgb),0.06); }
+
+/* ─── TYPOGRAPHY ─── */
+
+/* ✅ UPDATED: Space Grotesk for all headings/display */
+.font-display,
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size:0.7rem; font-weight:700;
+  letter-spacing:0.22em; text-transform:uppercase; color:var(--accent);
+}
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ─── LAYOUT — unified max-width & horizontal padding ─── */
+.section {
+  padding: 72px 10px;
+}
+
+.section-inner {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: 8px;
+}
+.max-w-6xl {
+  margin-top: 70px;
+  max-width: 67.5rem;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+  padding-bottom: 15px;
+}
+
+/* Tablet + Desktop */
+@media (min-width: 768px) {
+  .section-inner {
+    padding-inline: 20px;
+  }
+}
+
+@media (min-width: 640px) {
+  .section { padding-left: 30px; padding-right: 30px; }
+}
+@media (min-width: 1024px) {
+  .section { padding-top: 88px; padding-bottom: 88px; padding-left: 40px; padding-right: 40px; }
+}
+
+/* ─── HERO SECTION SPACING ─── */
+/*
+  ✅ FIX: Mobile pe hero ka top spacing kam ho jaata tha kyunki
+  .section ka padding-top mobile pe 56px ho jaata tha (line ~200).
+  Hero section ko explicitly override kiya hai — ab desktop jaisi
+  spacing mobile pe bhi maintain rahegi.
+*/
+.hero-section {
+  /* Desktop spacing maintained on all screen sizes */
+  padding-top: 120px !important;
+  padding-bottom: 80px !important;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    /* ✅ Mobile pe bhi same generous top space — nahi ghategaa */
+    padding-top: 120px !important;
+    padding-bottom: 64px !important;
+    min-height: 100svh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding-top: 110px !important;
+    padding-bottom: 56px !important;
+  }
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.1);
+}
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color:#fff;
+  font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.85rem; letter-spacing:0.04em;
+  border-radius:10px; border:none; cursor:pointer;
+  text-decoration:none; position:relative; overflow:hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.btn-primary::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
+  opacity:0; transition:opacity 0.25s;
+}
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 35px rgba(var(--accent-rgb),0.4); }
+.btn-primary:hover::after { opacity:1; }
+.btn-primary:active { transform:translateY(0); }
+
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 27px;
+  background:transparent; color:var(--text-primary);
+  font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.85rem; letter-spacing:0.04em;
+  border-radius:10px; border:1px solid var(--border);
+  cursor:pointer; text-decoration:none;
+  transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.25s;
+}
+.btn-ghost:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-glow); transform:translateY(-2px); }
+
+/* ─── BADGE ─── */
+.badge {
+  display:inline-flex; align-items:center; padding:5px 12px; border-radius:100px;
+  font-size:0.75rem; font-weight:600;
+  background:rgba(var(--accent-rgb),0.1); border:1px solid rgba(var(--accent-rgb),0.25); color:var(--accent);
+  transition: background 0.2s, transform 0.2s;
+}
+.badge:hover { background:rgba(var(--accent-rgb),0.2); transform:translateY(-2px); }
+
+/* ─── FORM ─── */
+.form-field {
+  width:100%; background:var(--bg-secondary); border:1px solid var(--border);
+  border-radius:10px; padding:13px 16px;
+  color:var(--text-primary); font-family:'Inter',sans-serif; font-size:0.9rem;
+  outline:none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.form-field:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.12); background:var(--bg-card); }
+.form-field::placeholder { color:var(--text-muted); }
+
+/* ─── NAV ─── */
+.nav-bg {
+  background:var(--nav-bg); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+}
+
+/* ─── ORBS ─── */
+.orb { position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; }
+
+/* ─── GLOW ─── */
+.glow-box {
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.2), 0 0 30px rgba(var(--accent-rgb),0.08);
+}
+
+/* ─── TIMELINE ─── */
+.timeline-dot {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--bg-card); border:2px solid var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--accent); flex-shrink:0;
+  box-shadow:0 0 16px rgba(var(--accent-rgb),0.3);
+}
+
+/* ─── MARQUEE ─── */
+@keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.marquee-track { display:flex; width:max-content; animation:marquee 28s linear infinite; }
+.marquee-track:hover { animation-play-state:paused; }
+
+/* ─── NAV ACTIVE ─── */
+.nav-active { color:var(--accent) !important; }
+
+/* ─── DIVIDER ─── */
+.divider { height:1px; background:linear-gradient(to right, transparent, var(--border), transparent); }
+
+/* ─── SECTION DIVIDER ─── */
+.section-divider { border-top:1px solid var(--border); }
+
+/* ─── COMING SOON SHIMMER ─── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),0.04) 25%, rgba(var(--accent-rgb),0.12) 50%, rgba(var(--accent-rgb),0.04) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 2.5s infinite linear;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width:768px) {
+  .section { padding-top:56px; padding-bottom:56px; }
+  .c-dot, .c-ring { display:none; }
+  body { cursor:auto; }
+}
+
+/* ─── SMOOTH THEME TRANSITIONS ─── */
+*, *::before, *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.2s ease;
+}
+.btn-primary  { transition: transform 0.25s, box-shadow 0.25s; }
+.btn-ghost    { transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.25s; }
+.card         { transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+.badge        { transition: background 0.2s, transform 0.2s; }
