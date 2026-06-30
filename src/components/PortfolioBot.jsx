@@ -244,7 +244,7 @@ function getAnswer(input) {
     }
   }
 
-  return "🤔 Hmm, I didn't quite get that! Try asking about:\n• Skills & Tech Stack\n• Projects\n• Work Experience\n• Education\n• Contact Info\n• Services";
+  return "Sorry, this is private — I can't share that info right now. 🙏\n\nYou can ask me about:\n• Skills & Tech Stack\n• Projects\n• Work Experience\n• Education\n• Contact Info\n• Services";
 }
 
 // ── Main Component ─────────────────────────────────────────
@@ -281,63 +281,73 @@ export default function PortfolioBot() {
   return (
     <>
       {/* ── Floating Button ── */}
-      <motion.button
-        onClick={() => setOpen((o) => !o)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl"
-        style={{
-          background: "linear-gradient(135deg, var(--accent), #a855f7)",
-          boxShadow: "0 0 24px rgba(99,102,241,0.5)",
-        }}
-        aria-label="Open chat"
-      >
-        <AnimatePresence mode="wait">
-          {open ? (
-            <motion.span
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <CloseIcon sx={{ fontSize: 22, color: "#fff" }} />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ChatIcon sx={{ fontSize: 22, color: "#fff" }} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-
-        {/* pulse ring */}
-        {!open && (
-          <motion.span
-            animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="absolute inset-0 rounded-full"
-            style={{ background: "rgba(99,102,241,0.4)" }}
-          />
-        )}
-      </motion.button>
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+        <motion.div
+          animate={{
+            boxShadow: [
+              "0 0 0px rgba(99,102,241,0.0)",
+              "0 0 22px rgba(99,102,241,0.45)",
+              "0 0 0px rgba(99,102,241,0.0)",
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="rounded-full"
+        >
+          <motion.button
+            onClick={() => setOpen((o) => !o)}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, var(--accent), #a855f7)",
+            }}
+            aria-label="Open chat"
+          >
+            <AnimatePresence mode="wait">
+              {open ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <CloseIcon sx={{ fontSize: 18 }} style={{ color: "#fff" }} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="chat"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChatIcon sx={{ fontSize: 18 }} style={{ color: "#fff" }} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </motion.div>
+      </div>
 
       {/* ── Chat Window ── */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-24 right-6 z-50 w-[340px] sm:w-[380px] rounded-2xl overflow-hidden flex flex-col"
+            exit={{ opacity: 0, y: 16, scale: 0.97 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed z-50 rounded-2xl overflow-hidden flex flex-col"
             style={{
-              height: "520px",
+              bottom: "calc(4.75rem + env(safe-area-inset-bottom, 0px))",
+              right: "1rem",
+              left: "1rem",
+              top: "auto",
+              maxWidth: "380px",
+              width: "auto",
+              marginLeft: "auto",
+              height: "min(480px, 70vh)",
               background: "var(--bg-card)",
               border: "1px solid rgba(99,102,241,0.25)",
               boxShadow:
